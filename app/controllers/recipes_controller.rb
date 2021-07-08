@@ -1,26 +1,26 @@
-class RecipesController < ApplicationController
+class ComicsController < ApplicationController
 
-    # GET /recipes
+    # GET /comics
     def index
         # byebug
         if !session[:user_id] == false
             user = User.find(session[:user_id])
             # byebug
-            recipes = user.recipes
-            render json: recipes, include: :user
+            comics = user.comics
+            render json: comics, include: :user
         else
             render json: { errors: []}, status: :unauthorized
         end
     end
 
-    # POST /recipes
+    # POST /comics
     def create
         if !session[:user_id] == false
             user = User.find(session[:user_id])
-            recipe = user.recipes.create(recipe_params)
+            comic = user.comics.create(comic_params)
             # byebug
-            if recipe.valid?
-                render json: recipe, include: :user, status: :created
+            if comic.valid?
+                render json: comic, include: :user, status: :created
             else
                 render json: { errors: []}, status: :unprocessable_entity
             end
@@ -31,8 +31,8 @@ class RecipesController < ApplicationController
 
     private
 
-    def recipe_params
-        params.permit(:user_id, :title, :instructions, :minutes_to_complete)
+    def comic_params
+        params.permit(:user_id, :title, :publisher, :creators, :img_url, :price, :description)
     end
 
 
