@@ -6,7 +6,7 @@ import { Button, Error, FormField, Input, Label, Textarea } from "../styles";
 
 function NewComic({ user }) {
   const [title, setTitle] = useState("Enter Book Title Here");
-  const [minutesToComplete, setMinutesToComplete] = useState("30");
+  const [price, setPrice] = useState("30");
   const [instructions, setInstructions] = useState(`Here's how you make it.
   
 ## Ingredients
