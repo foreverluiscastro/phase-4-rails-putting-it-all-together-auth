@@ -4,36 +4,36 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Box, Button } from "../styles";
 
-function RecipeList() {
-  const [recipes, setRecipes] = useState([]);
+function ComicList() {
+  const [comics, setComics] = useState([]);
 
   useEffect(() => {
-    fetch("/recipes")
+    fetch("/comics")
       .then((r) => r.json())
-      .then(setRecipes);
+      .then(setComics);
   }, []);
 
   return (
     <Wrapper>
-      {recipes.length > 0 ? (
-        recipes.map((recipe) => (
-          <Recipe key={recipe.id}>
+      {comics.length > 0 ? (
+        comics.map((comic) => (
+          <Comic key={comic.id}>
             <Box>
-              <h2>{recipe.title}</h2>
+              <h2>{comic.title}</h2>
               <p>
-                <em>Time to Complete: {recipe.minutesToComplete} minutes</em>
+                {/* <em>Time to Complete: {recipe.minutesToComplete} minutes</em>
                 &nbsp;·&nbsp;
-                <cite>By {recipe.user.username}</cite>
+                <cite>By {recipe.user.username}</cite> */}
               </p>
-              <ReactMarkdown>{recipe.instructions}</ReactMarkdown>
+              <ReactMarkdown>{comic.description}</ReactMarkdown>
             </Box>
-          </Recipe>
+          </Comic>
         ))
       ) : (
         <>
-          <h2>No Recipes Found</h2>
+          <h2>No Comics Found</h2>
           <Button as={Link} to="/new">
-            Make a New Recipe
+            Add a New Comic
           </Button>
         </>
       )}
@@ -46,8 +46,8 @@ const Wrapper = styled.section`
   margin: 40px auto;
 `;
 
-const Recipe = styled.article`
+const Comic = styled.article`
   margin-bottom: 24px;
 `;
 
-export default RecipeList;
+export default ComicList;
