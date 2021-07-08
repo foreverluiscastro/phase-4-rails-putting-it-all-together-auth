@@ -5,19 +5,12 @@ import ReactMarkdown from "react-markdown";
 import { Button, Error, FormField, Input, Label, Textarea } from "../styles";
 
 function NewComic({ user }) {
-  const [title, setTitle] = useState("Enter Book Title Here");
-  const [price, setPrice] = useState("30");
-  const [instructions, setInstructions] = useState(`Here's how you make it.
-  
-## Ingredients
-
-- 1c Sugar
-- 1c Spice
-
-## Instructions
-
-**Mix** sugar and spice. _Bake_ for 30 minutes.
-  `);
+  const [title, setTitle] = useState("Enter Comic Title Here");
+  const [img_url, setImgUrl] = useState("Add an Image Link")
+  const [price, setPrice] = useState(30.00);
+  const [description, setDescription] = useState("Add a Description");
+  const [creators, setCreators] = useState("Add the Creator(s)");
+  const [publisher, setPublisher] = useState("Add a Publisher");
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
@@ -25,15 +18,18 @@ function NewComic({ user }) {
   function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
-    fetch("/recipes", {
+    fetch("/comics", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         title,
-        instructions,
-        minutes_to_complete: minutesToComplete,
+        publisher,
+        creators,
+        img_url,
+        description,
+        price: price,
       }),
     }).then((r) => {
       setIsLoading(false);
@@ -60,26 +56,53 @@ function NewComic({ user }) {
             />
           </FormField>
           <FormField>
-            <Label htmlFor="minutesToComplete">Minutes to complete</Label>
+            <Label htmlFor="creators">Creators</Label>
             <Input
-              type="number"
-              id="minutesToComplete"
-              value={minutesToComplete}
-              onChange={(e) => setMinutesToComplete(e.target.value)}
+              type="text"
+              id="creators"
+              value={creators}
+              onChange={(e) => setCreators(e.target.value)}
             />
           </FormField>
           <FormField>
-            <Label htmlFor="instructions">Instructions</Label>
+            <Label htmlFor="publisher">Publisher</Label>
+            <Input 
+              type="text"
+              id="publisher"
+              value={publisher}
+              onChange={(e) => setPublisher(e.target.value)}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="price">Price</Label>
+            <Input
+            type="float"
+            id="price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="imgUrl">Image URL Link</Label>
+            <Input
+              type="text"
+              id="imgUrl"
+              value={img_url}
+              onChange={(e) => setImgUrl(e.target.value)}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="description">Description</Label>
             <Textarea
-              id="instructions"
+              id="description"
               rows="10"
-              value={instructions}
-              onChange={(e) => setInstructions(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </FormField>
           <FormField>
             <Button color="primary" type="submit">
-              {isLoading ? "Loading..." : "Submit Recipe"}
+              {isLoading ? "Loading..." : "Submit Comic"}
             </Button>
           </FormField>
           <FormField>
@@ -92,11 +115,14 @@ function NewComic({ user }) {
       <WrapperChild>
         <h1>{title}</h1>
         <p>
-          <em>Time to Complete: {minutesToComplete} minutes</em>
+          <em>Created by: {creators}</em>
           &nbsp;·&nbsp;
-          <cite>By {user.username}</cite>
+          <cite>Published by: {publisher}</cite>
+
+          <p>Price: ${price}</p>
         </p>
-        <ReactMarkdown>{instructions}</ReactMarkdown>
+        <img src={img_url} alt=""/>
+        <ReactMarkdown>{description}</ReactMarkdown>
       </WrapperChild>
     </Wrapper>
   );

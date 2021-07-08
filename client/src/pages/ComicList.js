@@ -21,9 +21,10 @@ function ComicList() {
             <Box>
               <h2>{comic.title}</h2>
               <p>
-                {/* <em>Time to Complete: {recipe.minutesToComplete} minutes</em>
+                <em>Created by: {comic.creators}</em>
                 &nbsp;·&nbsp;
-                <cite>By {recipe.user.username}</cite> */}
+                <cite>Published by: {comic.publisher}</cite>
+                <p>${comic.price}</p>
               </p>
               <ReactMarkdown>{comic.description}</ReactMarkdown>
             </Box>
